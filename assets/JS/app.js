@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: document.body.clientWidth,
-    height: document.body.clientHeight,
+    width: window.innerWidth,
+    height: window.innerHeight,
     physics: {
         default: 'arcade',
         arcade: {
@@ -17,15 +17,23 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+var button;
+
+
 
 function preload(){
-    this.load.image('fond','assets/Images/donjon.jpg' )
+    
+    this.load.image('fond', "assets/Images/donjon.jpg");
 }
 
-function create(){
-    this.add.image(400, 300, 'fond');
+function create() {
+    this.add.image(window.innerWidth / 2 , window.innerHeight / 2, 'fond');
 }
+
 
 function update(){
-
+var button = document.getElementById('boutton')
+button.addEventListener('click', function(){
+    button.style.display= 'none';
+});
 }
