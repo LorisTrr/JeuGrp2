@@ -18,9 +18,6 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
-var button;
-
-
 
 function preload(){
     
@@ -82,9 +79,8 @@ function create() {
     })
         
 
-
+    this.load.image('fond','assets/Images/donjon.jpg' )
 }
-
 
 function update(){
     var button = document.getElementById('boutton')

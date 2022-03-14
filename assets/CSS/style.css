@@ -74,4 +74,8 @@
   }
   html{
     overflow:unset;
+}
+  #vie{
+    border:solid black 1px;
+    width: 150px;
   }
