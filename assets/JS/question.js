@@ -15,15 +15,22 @@ let reponseU;
 var random;
 var vie =3;
 test = affichage();
-function affichage(){
+function affichage() {
     var taille_tableaux=question.length;
     random= Math.floor(Math.random() * taille_tableaux);
     var textQ= question[random];
     document.getElementById('question').innerHTML =textQ;
     var hh= reponse[random][0];
-    if(taille_tableaux !=0){
-        for (var i=0;i<=reponse[random].length;i++){
-            document.getElementById('vie').innerHTML= "vie :"+vie;
+    if(vie >=1) {
+        for(var y=1;y<=vie;y++) {
+            var myImage = new Image(50, 50);
+            myImage.src = 'assets/Images/vie.jpg';
+            var img = document.getElementById('vie');
+            img.appendChild(myImage);
+        }
+    }
+    if(taille_tableaux !=0) {
+        for (var i=0;i<=reponse[random].length;i++) {
             document.getElementById('reponse1').innerHTML ="<input class=\"bouton\" id='test0' type=\"button\" OnClick=\"correct('0')\" value="+reponse[random][0]+">";
             document.getElementById('reponse2').innerHTML ="<input class=\"bouton\" id='test1' type=\"button\" OnClick=\"correct('1')\"  value="+reponse[random][1]+">";
             document.getElementById('reponse3').innerHTML ="<input class=\"bouton\" id='test2' type=\"button\" OnClick=\"correct('2')\" value="+reponse[random][2]+">";
@@ -31,36 +38,36 @@ function affichage(){
         }
     }
 }
-function correct(reponseUtilisateur){
+function correct(reponseUtilisateur) {
         var value1=document.getElementById("test"+reponseUtilisateur);
         value1=value1.value;
         var bonneReponse1=bonneReponse[random];
-    if(vie!=0){
-        if(value1==bonneReponse[random]){
+    if(vie!=0) {
+        if(value1==bonneReponse[random]) {
             question.splice(random,1);
             reponse.splice(random,1);
             return affichage();
         }
-        else{
+        else {
             vie--;
-            document.getElementById('vie').innerHTML="vie :"+vie;
+            document.getElementById('vie').innerHTML=vie;
             question.splice(random,1);
             reponse.splice(random,1);
-            if(vie>=0){
+            if(vie>=0) {
                 return affichage();
             }
-            else{
+            else {
                 console.log('ok t as perdu');
             }
         }
     }
-    else{
+    else {
         document.getElementById('vie').innerHTML="defait plus de vie";
         alert("you loose");
         document.getElementById('recommancer').innerHTML="<input class=\"bouton\" id='reload' type=\"button\" OnClick=\"reload()\" value=recommancer>";;
 
     }
 }
-function reload(){
+function reload() {
     window.location.reload();
 }
