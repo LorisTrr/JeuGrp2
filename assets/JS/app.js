@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 1000,
-    height: 610,
+    width: 1920,
+    height: 1080,
     physics: {
         default: 'arcade',
         arcade: {
@@ -13,45 +13,38 @@ var config = {
     scene: {
         preload: preload,
         create: create,
-        update: update
+		update: update
     }
 };
-
 var game = new Phaser.Game(config);
-
 function preload(){
-    
-    this.load.image('plateform1', "assets/Images/plateform1.png");
-    this.load.spritesheet('hero', 'assets/Images/hero.png', { frameWidth: 32, frameHeight: 64 });
+	this.load.spritesheet('hero', 'assets/Images/hero.png', { frameWidth: 32, frameHeight: 64 });
     this.load.spritesheet('monster1', 'assets/Images/monstre1.png', { frameWidth: 96, frameHeight: 96 });
     this.load.spritesheet('swords', 'assets/Images/monstre1.png', { frameWidth: 32, frameHeight: 32 });
+	this.load.image('tiles', 'assets/Images/platformerBricks_tilesheet.png')
+	this.load.tilemapTiledJSON('tilemap', 'assets/Images/test.json')
 }
 
 function create() {
-    this.scene.pause("SceneA");
-    platforms = this.physics.add.staticGroup();
-    platforms.create(200 ,600, 'plateform1')
-    platforms.create(600 ,600, 'plateform1')
-    platforms.create(1000 ,600, 'plateform1')
-    platforms.create(1400 ,600, 'plateform1')
+	const map = this.make.tilemap({ key: 'tilemap' })
+	const tileset = map.addTilesetImage('platformerBricks_tilesheet', 'tiles')
+	map.createLayer('Calque de Tuiles 1', tileset)
+	const plateformes = map.createStaticLayer("Calque de Tuiles 2",tileset);  
+	map.createLayer('Calque de Tuiles 3', tileset)
+	
 
-    player = this.physics.add.sprite(100, 400, 'hero');
+	player = this.physics.add.sprite(100, 400, 'hero');
     sword = this.physics.add.staticGroup();
     sword.create(player.x, player.y, [ { key: 'hero', frame: 11 } ]);
-    monster = this.physics.add.sprite(300,400, 'monster1');
-    
-    console.log(player);
+    monster = this.physics.add.sprite(1800,800, 'monster1');
 
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-    monster.setCollideWorldBounds(true);
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(monster, platforms);
-    this.physics.add.collider(player, monster);
+	plateformes.setCollisionByProperty({ solide: true }); 
+	this.physics.add.collider(player, plateformes);
+	this.physics.add.collider(monster, plateformes);
+	this.physics.add.collider(player, monster);
+	cursors = this.input.keyboard.createCursorKeys();
 
-    cursors = this.input.keyboard.createCursorKeys();
-
-    this.anims.create({
+	this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('hero', { start: 25, end: 32 }),
         frameRate: 10,
@@ -77,12 +70,11 @@ function create() {
         frameRate: 10,
         repeat: -1
     })
-        
+	// see if enemy and player within 400px of each other
 
-    this.load.image('fond','assets/Images/donjon.jpg' )
 }
-
 function update(){
+
     var button = document.getElementById('boutton')
     button.addEventListener('click', function(){
         button.style.display= 'none';
@@ -107,8 +99,15 @@ if (cursors.left.isDown)
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown && player.body.touching.down)
+    if (cursors.up.isDown)
     {
         player.setVelocityY(-300);
     }
+	if (enemy.x < LEFT && enemy.body.velocity.x < 0) {
+		enemy.setVelocityX(speed); if (speed < MAX) speed += INC;
+	 } 
+	else if (enemy.x > RIGHT && enemy.body.velocity.x > 0) {
+			enemy.setVelocityX(-speed); 
+			if (speed < MAX) speed += INC;
+		}
 }
