@@ -17,7 +17,7 @@ var config = {
     }
 };
 var game = new Phaser.Game(config);
-function preload(){
+function preload() {
 	this.load.spritesheet('hero', 'assets/Images/hero.png', { frameWidth: 32, frameHeight: 64 });
     this.load.spritesheet('monster1', 'assets/Images/monstre1.png', { frameWidth: 96, frameHeight: 96 });
     this.load.spritesheet('swords', 'assets/Images/monstre1.png', { frameWidth: 32, frameHeight: 32 });
@@ -74,12 +74,6 @@ function create() {
 
 }
 function update(){
-
-    var button = document.getElementById('boutton')
-    button.addEventListener('click', function(){
-        button.style.display= 'none';
-    });
-
 if (cursors.left.isDown)
     {
         player.setVelocityX(-160);
@@ -103,11 +97,4 @@ if (cursors.left.isDown)
     {
         player.setVelocityY(-300);
     }
-	if (enemy.x < LEFT && enemy.body.velocity.x < 0) {
-		enemy.setVelocityX(speed); if (speed < MAX) speed += INC;
-	 } 
-	else if (enemy.x > RIGHT && enemy.body.velocity.x > 0) {
-			enemy.setVelocityX(-speed); 
-			if (speed < MAX) speed += INC;
-		}
 }
